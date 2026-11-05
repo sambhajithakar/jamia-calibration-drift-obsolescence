@@ -1,0 +1,5 @@
+Signal,Fires on models that lost half their value,False alarms (fires although value retained),"Median lead/lag vs utility loss, y",Positive predictive value for utility loss
+Net benefit adds <1 net true positive per 1000 over the default strategy,1/4,2/32,+2.0,0.33
+"Calibration-in-the-large outside [-0.20, 0.20]",4/4,19/32,-2.0,0.17
+"Calibration slope outside [0.80, 1.25]",3/4,17/32,0.0,0.15
+AUROC falls >0.05 below its initial value,0/4,0/32,—,—

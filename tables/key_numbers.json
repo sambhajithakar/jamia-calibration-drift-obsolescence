@@ -1,0 +1,16 @@
+{
+  "n_model_tasks":36,
+  "n_eval_points":320,
+  "n_tasks":10,
+  "pct_points_slope":49.4,
+  "pct_points_citl":45.3,
+  "pct_points_util":6.6,
+  "pct_points_abs":5.0,
+  "pct_points_auroc":0.0,
+  "obsolete_util":4,
+  "n":36,
+  "tasks_lost_value":[
+    "y_htn_measured"
+  ],
+  "median_time_to_loss_y":6.0
+}

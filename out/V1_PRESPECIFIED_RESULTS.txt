@@ -1,0 +1,51 @@
+/usr/local/lib/python3.13/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+================================================================
+PRIMARY — useful life of frozen models (P0), portfolio of 36 model-task combinations
+================================================================
+obsolete within the window : 3 / 36
+median useful life         : not reached years
+survival at 10 y           : 0.94
+survival at 20 y           : 0.92
+
+time-to-obsolescence by task (P0):
+                   n  events  median_dur
+task                                    
+y_arthritis        4       0        20.5
+y_cancer           4       0        20.5
+y_central_obesity  2       0        20.5
+y_chd              4       0        20.5
+y_chf              4       0        20.5
+y_htn_measured     4       1        16.0
+y_mi               4       0        20.5
+y_obesity          2       2        11.0
+y_stroke           4       0        20.5
+y_undiag_diabetes  4       0        20.5
+
+================================================================
+DETERMINANTS (Cox)
+================================================================
+only 3 events — Cox not estimated (pre-specified fallback)
+
+================================================================
+MAINTENANCE POLICIES
+================================================================
+policy  n  obsolete  pct_obsolete  median_life
+    P0 36         3           8.3          NaN
+    P1 36         1           2.8          NaN
+    P2 36         1           2.8          NaN
+    P3 36         1           2.8          NaN
+    P4 36         0           0.0          NaN
+
+unrescuable (obsolete under ALL five policies): 0 / 36  (0.0%)
+
+================================================================
+RETIREMENT RULES — when would each fire?
+================================================================
+        net_benefit  auroc_drop  citl  slope
+count           3.0         0.0  23.0   20.0
+median          8.0         NaN   6.0    2.0
+
+auroc_drop : never fires on any model that lost net benefit
+citl       : fires on  3/3 of the models that lost net benefit; median lag vs net-benefit rule = -4.0 years
+slope      : fires on  3/3 of the models that lost net benefit; median lag vs net-benefit rule = -6.0 years

@@ -1,0 +1,11 @@
+Outcome,Base-period n,Base-period events,Base-period prevalence,Decision threshold,Evaluation cycles,Last cycle,Model-task combinations,Entered portfolio
+Undiagnosed diabetes,8015,218,2.7%,3%,9,2021-2023,4,Yes
+Obesity,8530,2668,31.3%,31%,9,2021-2023,2,Yes
+Central obesity,8486,4280,50.4%,50%,9,2021-2023,2,Yes
+Measured hypertension,8527,4147,48.6%,49%,8,2017-2018,4,Yes
+Arthritis,8908,2271,25.5%,25%,9,2021-2023,4,Yes
+Heart failure,8877,287,3.2%,3%,9,2021-2023,4,Yes
+Coronary heart disease,8856,386,4.4%,4%,9,2021-2023,4,Yes
+Myocardial infarction,8897,398,4.5%,4%,9,2021-2023,4,Yes
+Stroke,8909,316,3.6%,4%,9,2021-2023,4,Yes
+Cancer,8910,789,8.9%,9%,9,2021-2023,4,Yes

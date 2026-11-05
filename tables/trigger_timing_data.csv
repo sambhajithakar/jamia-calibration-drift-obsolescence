@@ -1,0 +1,37 @@
+task,predset,family,util,citl,slope,auroc,last,lab
+y_htn_measured,Q,gbt,6.0,4.0,4.0,,16.0,Measured hypertension  Q/GBT
+y_htn_measured,Q,lr,6.0,4.0,14.0,,16.0,Measured hypertension  Q/LR
+y_htn_measured,QE,gbt,6.0,4.0,6.0,,16.0,Measured hypertension  QE/GBT
+y_htn_measured,QE,lr,6.0,4.0,,,16.0,Measured hypertension  QE/LR
+y_chf,QE,gbt,,2.0,2.0,,20.5,Heart failure  QE/GBT
+y_stroke,QE,gbt,,2.0,2.0,,20.5,Stroke  QE/GBT
+y_undiag_diabetes,QE,gbt,,2.0,2.0,,20.5,Undiagnosed diabetes  QE/GBT
+y_stroke,Q,gbt,,4.0,2.0,,20.5,Stroke  Q/GBT
+y_central_obesity,Q,gbt,,6.0,,,20.5,Central obesity  Q/GBT
+y_central_obesity,Q,lr,,6.0,,,20.5,Central obesity  Q/LR
+y_undiag_diabetes,Q,gbt,,6.0,2.0,,20.5,Undiagnosed diabetes  Q/GBT
+y_undiag_diabetes,Q,lr,,6.0,14.0,,20.5,Undiagnosed diabetes  Q/LR
+y_undiag_diabetes,QE,lr,,6.0,14.0,,20.5,Undiagnosed diabetes  QE/LR
+y_obesity,Q,gbt,,8.0,2.0,,20.5,Obesity  Q/GBT
+y_obesity,Q,lr,,8.0,2.0,,20.5,Obesity  Q/LR
+y_cancer,Q,gbt,,12.0,2.0,,20.5,Cancer  Q/GBT
+y_cancer,Q,lr,,12.0,,,20.5,Cancer  Q/LR
+y_cancer,QE,gbt,,12.0,2.0,,20.5,Cancer  QE/GBT
+y_cancer,QE,lr,,12.0,,,20.5,Cancer  QE/LR
+y_arthritis,Q,gbt,,16.0,2.0,,20.5,Arthritis  Q/GBT
+y_arthritis,Q,lr,,16.0,,,20.5,Arthritis  Q/LR
+y_stroke,Q,lr,,16.0,,,20.5,Stroke  Q/LR
+y_stroke,QE,lr,,16.0,,,20.5,Stroke  QE/LR
+y_arthritis,QE,gbt,,,,,20.5,Arthritis  QE/GBT
+y_arthritis,QE,lr,,,,,20.5,Arthritis  QE/LR
+y_chd,Q,gbt,,,2.0,,20.5,Coronary heart disease  Q/GBT
+y_chd,Q,lr,,,,,20.5,Coronary heart disease  Q/LR
+y_chd,QE,gbt,,,2.0,,20.5,Coronary heart disease  QE/GBT
+y_chd,QE,lr,,,,,20.5,Coronary heart disease  QE/LR
+y_chf,Q,gbt,,,2.0,,20.5,Heart failure  Q/GBT
+y_chf,Q,lr,,,,,20.5,Heart failure  Q/LR
+y_chf,QE,lr,,,,,20.5,Heart failure  QE/LR
+y_mi,Q,gbt,,,2.0,,20.5,Myocardial infarction  Q/GBT
+y_mi,Q,lr,,,,,20.5,Myocardial infarction  Q/LR
+y_mi,QE,gbt,,,2.0,,20.5,Myocardial infarction  QE/GBT
+y_mi,QE,lr,,,,,20.5,Myocardial infarction  QE/LR

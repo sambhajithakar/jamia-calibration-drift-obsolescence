@@ -1,0 +1,11 @@
+task,base_n,base_events,base_prev,eligible
+y_undiag_diabetes,8015,218,0.0272,True
+y_obesity,8530,2668,0.3128,True
+y_central_obesity,8486,4280,0.5044,True
+y_htn_measured,8527,4147,0.4863,True
+y_arthritis,8908,2271,0.2549,True
+y_chf,8877,287,0.0323,True
+y_chd,8856,386,0.0436,True
+y_mi,8897,398,0.0447,True
+y_stroke,8909,316,0.0355,True
+y_cancer,8910,789,0.0886,True

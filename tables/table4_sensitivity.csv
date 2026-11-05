@@ -1,0 +1,18 @@
+Analysis,Obsolete model-tasks,%
+"Retention 0.25, k=1",4/36,11.1
+"Retention 0.25, k=2",4/36,11.1
+"Retention 0.25, k=3",3/36,8.3
+"Retention 0.50, k=1",4/36,11.1
+"Retention 0.50, k=2",4/36,11.1
+"Retention 0.50, k=3",4/36,11.1
+"Retention 0.75, k=1",17/36,47.2
+"Retention 0.75, k=2",13/36,36.1
+"Retention 0.75, k=3",11/36,30.6
+"Secondary boundary (adds <1 net TP/1000), k=1",5/36,13.9
+"Secondary boundary (adds <1 net TP/1000), k=2",3/36,8.3
+"Secondary boundary (adds <1 net TP/1000), k=3",3/36,8.3
+Maintenance policy P0 (primary boundary),4/36,11.1
+Maintenance policy P1 (primary boundary),4/36,11.1
+Maintenance policy P2 (primary boundary),4/36,11.1
+Maintenance policy P3 (primary boundary),4/36,11.1
+Maintenance policy P4 (primary boundary),5/36,13.9
