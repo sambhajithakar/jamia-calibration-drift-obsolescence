@@ -82,6 +82,7 @@ t1 = (t1.merge(foll, left_on="Outcome", right_on="task", how="left")
               errors="ignore"))
 t1["Decision threshold"] = t1["Outcome"].map(
     p0.groupby("task").thr.first().to_dict())
+LABEL_KEYS = list(t1["Outcome"])
 LABEL = {"y_undiag_diabetes": "Undiagnosed diabetes", "y_obesity": "Obesity",
          "y_central_obesity": "Central obesity", "y_htn_measured": "Measured hypertension",
          "y_arthritis": "Arthritis", "y_chf": "Heart failure",
@@ -89,9 +90,20 @@ LABEL = {"y_undiag_diabetes": "Undiagnosed diabetes", "y_obesity": "Obesity",
          "y_stroke": "Stroke", "y_cancer": "Cancer"}
 t1["Outcome"] = t1["Outcome"].map(LABEL)
 t1["Entered portfolio"] = t1["Entered portfolio"].map({True: "Yes", False: "No"})
+# weighted base-period prevalence, shown alongside the unweighted one that sets the threshold
+_an = pd.read_csv(f"{OUT}/analytic.csv.gz")
+_base = _an[_an.cycle.isin(["1999-2000", "2001-2002"])]
+_wprev = {}
+for _tk in LABEL_KEYS:
+    _b = _base[_base[_tk].notna()]
+    _wprev[LABEL[_tk]] = float(np.average(_b[_tk].to_numpy(float),
+                                          weights=_b.WTMEC2YR.to_numpy(float)))
+t1["Base-period prevalence, weighted"] = (
+    t1["Outcome"].map(_wprev) * 100).round(1).astype(str) + "%"
 t1["Base-period prevalence"] = (t1["Base-period prevalence"] * 100).round(1).astype(str) + "%"
 t1["Decision threshold"] = (t1["Decision threshold"] * 100).round(0).astype(int).astype(str) + "%"
 t1 = t1[["Outcome", "Base-period n", "Base-period events", "Base-period prevalence",
+         "Base-period prevalence, weighted",
          "Decision threshold", "Evaluation cycles", "Last cycle",
          "Model-task combinations", "Entered portfolio"]]
 t1.to_csv(f"{TAB}/table1_portfolio.csv", index=False)
@@ -170,6 +182,34 @@ for pol in ["P0", "P1", "P2", "P3", "P4"]:
     rows.append(dict(Analysis=f"Maintenance policy {pol} (primary boundary)",
                      **{"Obsolete model-tasks": f"{int(ev.event.sum())}/{len(ev)}",
                         "%": round(100 * ev.event.mean(), 1)}))
+# sensitivity: design-based decision thresholds (30_fit_weighted_threshold.py)
+_wtd = "/home/claude/jamia2026/03_analysis/out_wtd/followup_metrics.csv"
+if os.path.exists(_wtd):
+    rw = pd.read_csv(_wtd)
+    rw["fail_util"] = rw.nb <= 0.5 * rw.groupby(KEY).nb.transform("first")
+    ev = event_table(rw[rw.policy == "P0"], "fail_util")
+    rows.append(dict(Analysis="Weighted decision threshold (primary boundary)",
+                     **{"Obsolete model-tasks": f"{int(ev.event.sum())}/{len(ev)}",
+                        "%": round(100 * ev.event.mean(), 1)}))
+
+# pre-specified threshold sensitivity (0.5x, 2x) and the mechanism test, from 31_
+_mech = "/home/claude/jamia2026/03_analysis/out/threshold_mechanism.csv"
+if os.path.exists(_mech):
+    mm = pd.read_csv(_mech)
+    mm = mm[~((mm.task == "y_htn_measured") & (mm.cycle == "2021-2023"))]
+    for col, lab in [("nb_half", "Decision threshold halved (pre-specified)"),
+                     ("nb_double", "Decision threshold doubled (pre-specified)"),
+                     ("nb_tracking", "Threshold tracks contemporaneous prevalence")]:
+        n = tot = 0
+        for _k, s in mm.sort_values("midyear").groupby(KEY):
+            tot += 1
+            bb = (s[col] <= 0.5 * s[col].iloc[0]).to_numpy()
+            if any(bb[i] and bb[i + 1] for i in range(len(bb) - 1)):
+                n += 1
+        rows.append(dict(Analysis=lab,
+                         **{"Obsolete model-tasks": f"{n}/{tot}",
+                            "%": round(100 * n / tot, 1)}))
+
 t4 = pd.DataFrame(rows)
 t4.to_csv(f"{TAB}/table4_sensitivity.csv", index=False)
 

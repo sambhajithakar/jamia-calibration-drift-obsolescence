@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "Analysis code and specifications for: Calibration drift is not obsolescence - a 20-year decision-analytic study of 36 frozen clinical prediction models"
-version: 1.0.0
-date-released: 2026-11-06
+version: 1.1.0
+date-released: 2026-11-07
 license: MIT
 doi: 10.5281/zenodo.23988407
 authors:

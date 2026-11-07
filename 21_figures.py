@@ -67,9 +67,9 @@ ana_c = pd.read_csv(f"{OUT}/analytic.csv.gz", usecols=["cycle"]).cycle
 N_BASE = int(ana_c.isin(["1999-2000", "2001-2002"]).sum())
 N_EVAL = int(len(ana_c) - N_BASE)
 ax.add_patch(Rectangle((1998.25, 0.48), 4.15, 0.26, fc="#D9E8F5", ec=C_UTIL, lw=0.9))
-ax.text(2000.33, 0.61, f"Training (base period)\nn = {N_BASE:,} adults",
-        ha="center", va="center", fontsize=6.3, color=C_UTIL, fontweight="bold",
-        linespacing=1.35)
+ax.text(2000.33, 0.61, f"Training\n(base period)\nn = {N_BASE:,} adults",
+        ha="center", va="center", fontsize=5.6, color=C_UTIL, fontweight="bold",
+        linespacing=1.3)
 ax.add_patch(Rectangle((2002.6, 0.48), 21.0, 0.26, fc="#F5F5F5", ec=C_GREY, lw=0.9))
 ax.text(2013.0, 0.61, "Evaluation period \u2014 models frozen, followed forward 20.5 years\n"
         f"9 cycles, n = {N_EVAL:,} adults", ha="center", va="center",
@@ -85,8 +85,10 @@ ax.annotate("", xy=(2019.6, 0.38), xytext=(2020.6, 0.38),
 ax.text(2020.1, 0.20, "2019-2020\nnot released\n(COVID-19)", ha="center", va="top",
         fontsize=5.5, color=C_LIGHT, style="italic")
 ax.plot([1998.6, 2023.6], [0.38, 0.38], color=C_LIGHT, lw=0.6, zorder=0)
-ax.text(1998.6, 0.90, "10 prediction tasks  ×  2 predictor sets  ×  2 model families  =  "
+ax.text(1998.6, 0.90, "10 prediction tasks  ×  2 model families  ×  up to 2 predictor sets  =  "
         "36 model–task combinations", fontsize=7.4, fontweight="bold", color="black")
+ax.text(1998.6, 0.845, "(the two obesity tasks take the questionnaire set only, since an outcome "
+        "is never its own predictor)", fontsize=6.2, style="italic", color=C_GREY)
 ax.text(1998.6, 0.80, "At every evaluation cycle: net benefit, calibration-in-the-large, "
         "calibration slope, AUROC — design-based (NHANES MEC weights, strata, PSUs)",
         fontsize=6.8, color=C_GREY)
@@ -158,12 +160,14 @@ fig.savefig(f"{FIG}/figure3_calibration_vs_utility.png"); plt.close(fig)
 fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.9),
                          gridspec_kw=dict(width_ratios=[1, 1.3]))
 ax = axes[0]
-labs = ["Calibration\nslope", "Calibration-\nin-the-large", "Net benefit\n(50% loss)", "AUROC\n(>0.05 drop)"]
+labs = ["Calibration\nslope", "Calibration-\nin-the-\nlarge", "Net\nbenefit\n(50% loss)", "AUROC\n(>0.05\ndrop)"]
 vals = [pp.fail_slope.mean() * 100, pp.fail_citl.mean() * 100,
         pp.fail_util.mean() * 100, pp.fail_auroc.mean() * 100]
 cols = [C_SLOPE, C_CITL, C_UTIL, C_AUROC]
 b = ax.bar(labs, vals, color=cols, width=0.58)
-ax.tick_params(axis="x", labelsize=6.3)
+ax.tick_params(axis="x", labelsize=5.6)
+for lbl in ax.get_xticklabels():
+    lbl.set_linespacing(1.1)
 for r, v in zip(b, vals):
     ax.text(r.get_x() + r.get_width() / 2, v + 1.4, f"{v:.1f}%", ha="center", fontsize=7.4,
             fontweight="bold")

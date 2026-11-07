@@ -50,6 +50,9 @@ with the SHA-256 of each, so an independent analyst can confirm they have the sa
 | `12_boundary_v2.py` | re-derives event times under the post-hoc boundary, without refitting | console output |
 | `20_tables.py` | manuscript Tables 1–4 | `tables/*.csv`, `tables/key_numbers.json` |
 | `21_figures.py` | manuscript Figures 1–6 | `figures/*.png` |
+| `30_fit_weighted_threshold.py` | sensitivity analysis: identical to `10_fit_and_follow.py` except that the decision threshold is the **weighted** base-period prevalence rather than the unweighted sample proportion | `out_wtd/followup_metrics.csv`, `out_wtd/task_eligibility.csv` |
+| `31_threshold_mechanism.py` | executes PRESPECIFICATION_v1 §4 (thresholds at 0.5× and 2×) and §9 (hypertension including 2021–2023), and tests the mechanism directly by holding the frozen predictions fixed while the threshold tracks contemporaneous prevalence | `out/threshold_mechanism.csv` |
+| `40_bootstrap_ci.py` | executes PRESPECIFICATION_v1 §8: design-based 95% confidence intervals by resampling PSUs within strata, 500 replicates, seed 20261106. Asserts that its point estimates reproduce `followup_metrics.csv` exactly | `out/bootstrap_ci.csv` |
 
 Scripts are numbered so that the order in which they were written is visible: everything
 below `10_` predates the pre-specification and is structural only.
@@ -69,8 +72,8 @@ Verify with `sha256sum -c SHA256SUMS`.
 
 ## Corrections made during preparation
 
-Two errors were found and fixed before any result was reported, and both are recorded here
-rather than silently corrected:
+Errors found during preparation are recorded here rather than silently corrected. None was
+reported as a result before being fixed.
 
 1. **Intercept-only recalibration (policy P1) was implemented incorrectly.** The intercept
    from a two-parameter recalibration was paired with a slope fixed at 1.0, which is not a
@@ -83,6 +86,65 @@ rather than silently corrected:
    own initial value"; `PRESPECIFICATION_v2_posthoc.md` specifies "net benefit adds <1 net
    true positive per 1000 over the better default strategy". The script now implements the
    specification.
+3. **The survey strata and primary sampling units were read and never used.** The
+   Methods described every quantity as design-based, but `SDMVSTRA` and `SDMVPSU` were
+   assigned to local variables and never referenced again. Closed by running the
+   specified bootstrap rather than by softening the claim - see the deviations section
+   below.
+4. **A claim in the manuscript was false and has been withdrawn.** An earlier draft said
+   that the threshold-prevalence failure was invisible to any statistic computed from a
+   model's own predictions. Calibration-in-the-large is such a statistic, and by these
+   data it fired on the affected models. The claim is replaced by the narrower and true
+   one: a band breach cannot distinguish a drifted population from a decayed model, and
+   the two call for opposite responses.
+
+## The decision threshold, and a sensitivity analysis
+
+Thresholds in the primary analysis are the **unweighted** base-period sample proportion,
+rounded to 0.01, while every evaluation quantity (calibration, net benefit, prevalence) is
+weighted by `WTMEC2YR`. Because NHANES oversamples, the two estimators differ: the threshold
+sits above the weighted base-period prevalence for all ten tasks, by 0.007 to 0.070.
+`30_fit_weighted_threshold.py` repeats the whole follow-up with weighted thresholds,
+changing nothing else.
+
+The central comparison is unchanged: the same 23/20/4/0 trigger counts, the same 19 and 17
+false alarms, the same positive predictive values (0.17 and 0.15), the same single failing
+task, the same 20-year survival figures. Four quantities move: the utility breach rate falls
+from 6.6% to 4.1% of evaluation points, the failure is dated 8 rather than 6 years after
+freezing, the secondary boundary catches none of the four failures rather than one, and the
+0.25 and 0.75 retention cells become 0/36 and 11/36. **The signal-value discordance does not
+depend on how the threshold was derived; the utility rule is itself threshold-sensitive at
+the margins.**
+
+## Deviations from the pre-specification, and how they were closed
+
+Three items in `PRESPECIFICATION_v1.md` were not executed in the first analysis pass and
+were found by an independent audit of this repository against the manuscript. All three have
+since been run; none changed a reported conclusion.
+
+1. **Section 8, design-based confidence intervals.** The first pass read `SDMVSTRA` and
+   `SDMVPSU` and then used neither: point estimates were weight-only and no interval was
+   computed. `40_bootstrap_ci.py` now performs the specified PSU-within-stratum bootstrap
+   (500 replicates, seed 20261106) and asserts that its point estimates reproduce the primary
+   run to within 1e-15. Result: the whole 95% interval lies outside the band at 34.4% of
+   evaluation points for calibration slope and 25.6% for calibration-in-the-large, against
+   raw breach rates of 49.4% and 45.3% - **30% of slope breaches and 43% of
+   calibration-in-the-large breaches are not separable from sampling error.**
+2. **Section 4, thresholds at 0.5x and 2x.** Now reported: 0/36 combinations obsolete at half
+   the threshold, 4/36 at the primary value, 11/36 at double.
+3. **Section 9, hypertension including 2021-2023.** Now reported: all four variants obsolete
+   either way, so the pre-specified stop at 2017-2018 does not drive the result.
+
+## The mechanism test
+
+`31_threshold_mechanism.py` runs a test that is in neither specification and is labelled
+post-hoc in the manuscript: the frozen predictions are held exactly as they are and only the
+decision threshold is allowed to track contemporaneous weighted prevalence. **All four
+hypertension failures disappear** (one obesity model crosses the boundary that had not
+before, so the count falls from 4/36 to 1/36 with a different member), and at the 2009-2010
+trough the hypertension models retain 72-82% of their initial net benefit instead of -17% to
++11%. Nothing about the model changed; only the threshold did. This is the direct evidence
+for the manuscript's claim that the loss was in the threshold rather than the model.
 
 ## Environment
 

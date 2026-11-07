@@ -16,3 +16,7 @@ Maintenance policy P1 (primary boundary),4/36,11.1
 Maintenance policy P2 (primary boundary),4/36,11.1
 Maintenance policy P3 (primary boundary),4/36,11.1
 Maintenance policy P4 (primary boundary),5/36,13.9
+Weighted decision threshold (primary boundary),4/36,11.1
+Decision threshold halved (pre-specified),0/36,0.0
+Decision threshold doubled (pre-specified),11/36,30.6
+Threshold tracks contemporaneous prevalence,1/36,2.8
