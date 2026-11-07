@@ -1,6 +1,6 @@
 # Calibration drift is not obsolescence
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23988407.svg)](https://doi.org/10.5281/zenodo.23988407)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23988406.svg)](https://doi.org/10.5281/zenodo.23988406)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Analysis code, pre-specifications and derived data for:
@@ -9,7 +9,11 @@ Analysis code, pre-specifications and derived data for:
 > decision-analytic study of 36 frozen clinical prediction models.* Submitted to the
 > Journal of the American Medical Informatics Association, November 2026.
 
-**Archived release with DOI:** [10.5281/zenodo.23988407](https://doi.org/10.5281/zenodo.23988407)
+**Archived release with DOI:** [10.5281/zenodo.23988406](https://doi.org/10.5281/zenodo.23988406)
+
+That is the concept DOI: it always resolves to the latest version. The current version is
+1.1.0 ([10.5281/zenodo.24038041](https://doi.org/10.5281/zenodo.24038041), 7 November 2026);
+version 1.0.0 is [10.5281/zenodo.23988407](https://doi.org/10.5281/zenodo.23988407).
 
 ## What the study found
 
