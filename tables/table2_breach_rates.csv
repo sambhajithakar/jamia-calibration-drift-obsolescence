@@ -1,6 +1,6 @@
-Signal,"Evaluation points breached, n/320 (%)","Model-task combinations triggered, n/36 (%)"
+Signal,"Evaluation points breached, n/320 (%)","Model–task combinations triggered, n/36 (%)"
 Net benefit falls below 50% of its initial value,21 (6.6),4 (11.1)
 Net benefit adds <1 net true positive per 1000 over the default strategy,16 (5.0),3 (8.3)
-"Calibration-in-the-large outside [-0.20, 0.20]",145 (45.3),23 (63.9)
+"Calibration-in-the-large outside [−0.20, 0.20]",145 (45.3),23 (63.9)
 "Calibration slope outside [0.80, 1.25]",158 (49.4),20 (55.6)
 AUROC falls >0.05 below its initial value,0 (0.0),0 (0.0)

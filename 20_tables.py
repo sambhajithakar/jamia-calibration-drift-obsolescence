@@ -116,7 +116,7 @@ print(t1.to_string(index=False))
 # ============ TABLE 2 — how often each monitoring signal fires ============
 rows = []
 pp = res[res.policy == "P0"]
-tot = len(pp)
+tot = n_eval_points = len(pp)  # n_eval_points is kept because `tot` is reused below
 for col, label in RULES:
     ev = event_table(pp, f"fail_{col}")
     rows.append(dict(Signal=label,
@@ -200,15 +200,15 @@ if os.path.exists(_mech):
     for col, lab in [("nb_half", "Decision threshold halved (pre-specified)"),
                      ("nb_double", "Decision threshold doubled (pre-specified)"),
                      ("nb_tracking", "Threshold tracks contemporaneous prevalence")]:
-        n = tot = 0
+        n = ntot = 0
         for _k, s in mm.sort_values("midyear").groupby(KEY):
-            tot += 1
+            ntot += 1
             bb = (s[col] <= 0.5 * s[col].iloc[0]).to_numpy()
             if any(bb[i] and bb[i + 1] for i in range(len(bb) - 1)):
                 n += 1
         rows.append(dict(Analysis=lab,
-                         **{"Obsolete model-tasks": f"{n}/{tot}",
-                            "%": round(100 * n / tot, 1)}))
+                         **{"Obsolete model-tasks": f"{n}/{ntot}",
+                            "%": round(100 * n / ntot, 1)}))
 
 t4 = pd.DataFrame(rows)
 t4.to_csv(f"{TAB}/table4_sensitivity.csv", index=False)
@@ -223,7 +223,7 @@ print(t4.to_string(index=False))
 ev_u = event_table(pp, "fail_util")
 key = {
     "n_model_tasks": int(n_mt),
-    "n_eval_points": int(tot),
+    "n_eval_points": int(n_eval_points),
     "n_tasks": int(pp.task.nunique()),
     "pct_points_slope": round(100 * pp.fail_slope.mean(), 1),
     "pct_points_citl":  round(100 * pp.fail_citl.mean(), 1),
@@ -239,3 +239,21 @@ print()
 print("KEY NUMBERS")
 for k, v in key.items():
     print(f"  {k:24s} {v}")
+
+
+# ---------- typographic normalisation of the written tables ----------
+# The manuscript is typeset with en dashes in ranges and compounds and with the
+# true minus sign U+2212 in negative numbers. Doing this here rather than by hand
+# keeps the delivered tables reproducible from this script.
+import glob as _glob, re as _re
+
+def _typo(s: str) -> str:
+    s = s.replace("Model-task", "Model–task").replace("model-task", "model–task")
+    s = _re.sub(r"(?<=\d)-(?=\d{4}\b)", "–", s)          # 2021-2023 -> en dash
+    s = _re.sub(r"(?<![\d\w])-(?=\d)", "−", s)            # -0.20, -2.0 -> minus sign
+    return s
+
+for _f in _glob.glob(f"{TAB}/table*.csv"):
+    _t = open(_f, encoding="utf8").read()
+    open(_f, "w", encoding="utf8").write(_typo(_t))
+print("tables typographically normalised")

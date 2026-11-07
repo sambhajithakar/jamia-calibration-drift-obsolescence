@@ -90,7 +90,7 @@ ax.text(1998.6, 0.90, "10 prediction tasks  ×  2 model families  ×  up to 2 pr
 ax.text(1998.6, 0.845, "(the two obesity tasks take the questionnaire set only, since an outcome "
         "is never its own predictor)", fontsize=6.2, style="italic", color=C_GREY)
 ax.text(1998.6, 0.80, "At every evaluation cycle: net benefit, calibration-in-the-large, "
-        "calibration slope, AUROC — design-based (NHANES MEC weights, strata, PSUs)",
+        "calibration slope, AUROC — weighted by the NHANES MEC weight",
         fontsize=6.8, color=C_GREY)
 fig.savefig(f"{FIG}/figure1_design.png"); plt.close(fig)
 

@@ -4,6 +4,9 @@ Design-based confidence intervals for the frozen-model (P0) metrics.
 Executes PRESPECIFICATION_v1.md section 8: "Confidence intervals by bootstrap resampling
 of PSUs within strata, 500 replicates, seed fixed at 20261106."
 
+The per-cell seed is derived from SEED and a SHA-256 digest of the cell key, so the
+replicate draws are identical on every machine and in every process.
+
 Models are refit from the base period exactly as in 10_fit_and_follow.py (same code, same
 seeds), so the point estimates written here must reproduce out/followup_metrics.csv for
 policy P0. That equality is asserted at the end of the run.
@@ -12,7 +15,7 @@ Writes out/bootstrap_ci.csv — one row per task/predset/family/cycle with the p
 estimate and the 2.5th/97.5th percentile of the replicate distribution for AUROC,
 calibration-in-the-large, calibration slope and net benefit.
 """
-import warnings
+import hashlib, warnings
 import numpy as np, pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import HistGradientBoostingClassifier
@@ -148,8 +151,12 @@ for task in TASKS:
                 pt_citl, pt_slope = citl_slope(ye, p0, we)
                 pt_nb = net_benefit(ye, p0, we, thr)
 
+                # A stable, process-independent per-cell seed. Python's hash() of a
+                # tuple of strings is salted per process unless PYTHONHASHSEED is set,
+                # so the previous version was not in fact reproducible across runs.
+                key = "|".join((task, ps_name, family, cyc)).encode("utf8")
                 rng = np.random.default_rng(
-                    SEED + abs(hash((task, ps_name, family, cyc))) % 10_000_019)
+                    SEED + int(hashlib.sha256(key).hexdigest()[:12], 16) % 10_000_019)
                 reps = psu_bootstrap_indices(stra, psu, rng, NBOOT)
                 b_auc, b_citl, b_slope, b_nb = [], [], [], []
                 for ix in reps:
