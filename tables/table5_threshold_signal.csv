@@ -1,0 +1,11 @@
+Task,Models,Lost half its net benefit,Threshold,First-cycle prevalence,Lowest prevalence,Largest relative prevalence fall,Largest threshold-prevalence gap
+Coronary heart disease,4,0 of 4,0.04,0.040,0.030,0.249,0.242
+Congestive heart failure,4,0 of 4,0.03,0.026,0.020,0.241,0.334
+Myocardial infarction,4,0 of 4,0.04,0.041,0.032,0.217,0.199
+Undiagnosed diabetes,4,0 of 4,0.03,0.021,0.017,0.161,0.418
+Measured hypertension,4,4 of 4,0.49,0.397,0.340,0.145,0.306
+Stroke,4,0 of 4,0.04,0.028,0.026,0.071,0.340
+Arthritis,4,0 of 4,0.25,0.250,0.233,0.065,0.067
+Cancer,4,0 of 4,0.09,0.087,0.084,0.043,0.071
+Central obesity,2,0 of 2,0.50,0.524,0.521,0.006,-0.041
+Obesity,2,0 of 2,0.31,0.320,0.320,0.000,-0.033

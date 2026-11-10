@@ -150,3 +150,57 @@ that size, but a reproducer who wants bit-identical output should pin these vers
 ## Licence
 
 Code: MIT. Derived data: CC0, consistent with the public domain status of the NHANES source.
+
+---
+
+## Version history
+
+**1.2.0 (11 November 2026).** Adds the post-hoc test of prevalence drift and the
+threshold-prevalence gap as a candidate monitoring signal (`50_prevalence_threshold_signal.py`,
+`out/prevalence_threshold_signal.csv`, `out/prevalence_threshold_roc.csv`,
+`tables/table5_threshold_signal.csv`). The script states its definitions and its reporting
+rule in its docstring before any operating characteristic is computed, and the result is
+negative: no cut-off on either quantity separates the four combinations that lost half their
+net benefit from the 32 that did not. The reference standard is the manuscript's primary
+(post-hoc) utility rule, nb <= 0.50 * nb_ref with two consecutive breached cycles, as
+implemented in 12_boundary_v2.py; the near-vacuous pre-specified boundary is not used here.
+No existing script, output or point estimate is changed by this version.
+
+**1.1.1 (8 November 2026).** Three code-level corrections found by a pre-submission audit
+of this archive against the manuscript. None changes a point estimate.
+
+1. `40_bootstrap_ci.py` derived its per-cell seed from `hash()` of a tuple of strings.
+   Python salts `hash()` per process unless `PYTHONHASHSEED` is set, so the replicate draws
+   were **not** reproducible across runs — contrary to what PRESPECIFICATION_v1 §8 and the
+   manuscript both claim. The seed is now a SHA-256 digest of the cell key, and the whole
+   bootstrap has been re-run. The end-of-run assertion against `followup_metrics.csv`
+   confirms the point estimates are unchanged. Two reported percentages moved:
+
+   | | 1.1.0 | 1.1.1 |
+   |---|---|---|
+   | whole 95% interval outside the band, calibration slope | 34.4% | **33.4%** |
+   | whole 95% interval outside the band, calibration-in-the-large | 25.6% | **25.9%** |
+   | slope breaches not separable from sampling error | 30% | **32%** |
+   | calibration-in-the-large breaches not separable | 43% | 43% |
+
+2. `20_tables.py` bound `tot` to the 320 evaluation points and then rebound it to the 36
+   model–tasks inside a later loop, so `tables/key_numbers.json` recorded
+   `n_eval_points: 36`. Fixed at the source rather than in the JSON. The typographic
+   normalisation of the delivered tables moved into the same script, so the tables in this
+   archive are now produced by it rather than edited afterwards.
+
+3. `21_figures.py` — Figure 1 stated that the four metrics were "design-based (NHANES MEC
+   weights, strata, PSUs)". They are not: the point estimates use `WTMEC2YR` only, and the
+   strata and PSUs enter the bootstrap alone. This had been corrected in the manuscript's
+   Methods but left standing in the figure. Regenerating the figures produced the other
+   five byte-identical.
+
+Also added: `PRESPECIFICATION_v1.sha256`, which was missing; `STATISTICAL_INTEGRITY.md`,
+which records every error found by verification and its fix; and exact library versions
+above. `SHA256SUMS` regenerated over all 46 files.
+
+**1.1.0 (7 November 2026).** Closed three deviations from the pre-specification: the
+bootstrap confidence intervals of §8, and the threshold sensitivity analyses of §4 and §9.
+Added the post-hoc mechanism test and the weighted-threshold sensitivity analysis.
+
+**1.0.0 (6 November 2026).** First deposit.
